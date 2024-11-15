@@ -39,8 +39,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 
-
-
+$conn = null; 
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -82,5 +82,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
 </body>
 </html>
-$conn = null; 
-?>
+
