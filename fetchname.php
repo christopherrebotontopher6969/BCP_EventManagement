@@ -2,10 +2,10 @@
 <?php
 
 
-$host = 'localhost';
-$db = 'event_bcp_sms3_ems'; 
-$user = 'event_topher';  
-$pass = 'topher';  
+$servername = "localhost"; 
+$username = "root"; 
+$password = ""; 
+$dbname = "bcp_sms3_ems"; 
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -37,3 +37,4 @@ if ($result->num_rows > 0) {
 $stmt->close();
 $conn->close();
 ?>
+
