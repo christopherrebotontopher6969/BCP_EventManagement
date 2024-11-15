@@ -1,11 +1,11 @@
 <?php
 session_start();
+include 'connection.php';
 if (isset($_SESSION['accountId'])) {
     header("eventdash.php");
     exit();
 }
 
-include 'connection.php';
 
 $error = ''; 
 
