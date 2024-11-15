@@ -1,7 +1,11 @@
 <?php
 session_start();
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 if (isset($_SESSION['accountId'])) {
-    header("eventdash.php");
+    header("Location: eventdash.php");
     exit();
 }
 
@@ -23,21 +27,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if ($user) {
             if (password_verify($password, $user['password'])) {
-
                 $_SESSION['accountId'] = $accountId;
                 header("Location: eventdash.php"); 
                 exit();
             } else {
-                
                 $error = 'Invalid password!';
             }
         } else {
-       
             $error = 'Invalid account ID or password!';
         }
     }
 }
-
 
 $conn = null; 
 ?>
@@ -76,10 +76,4 @@ $conn = null;
                 <a href="#" aria-label="Forgot password?">Forgot your password?</a>
             </div>
 
-            <button type="submit">LOGIN</button>
-        </form>
-        <script src="js/script.js"></script>
-    </div>
-</body>
-</html>
-
+            <
