@@ -1,14 +1,22 @@
 <?php
 session_start();
 
+// Enable error reporting
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 // Check if the user is already logged in
 if (isset($_SESSION['accountId'])) {
-    // Redirect to eventdash.php if already logged in
     header("Location: eventdash.php");
     exit();
 }
 
 include 'connection.php';
+
+// Check DB connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
 
 $error = ''; 
 
