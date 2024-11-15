@@ -1,9 +1,10 @@
 <?php
 session_start();
-include 'connection.php';
+
 if (isset($_SESSION['accountId'])) {
     header("eventdash.php");
     exit();
+    include 'connection.php';
 }
 
 
@@ -44,7 +45,6 @@ $conn = null;
 ?>
 
 
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
