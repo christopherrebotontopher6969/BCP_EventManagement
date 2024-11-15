@@ -1,8 +1,8 @@
 <?php
 $host = 'localhost';
-$db = 'bcp_sms3_ems'; 
-$user = 'root';  
-$pass = '';  
+$db = 'event_bcp_sms3_ems'; 
+$user = 'event_topher';  
+$pass = 'topher';  
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
