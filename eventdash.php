@@ -8,10 +8,10 @@ if (!isset($_SESSION['accountId'])) {
 
 include 'fetchname.php'; 
 
-$host = 'localhost';
-$db = 'event_bcp_sms3_ems'; 
-$user = 'event_topher';  
-$pass = 'topher';  
+$host = 'localhost';  
+$username = 'event_topher';  
+$password = 'topher';      
+$dbname = 'bcp_sms3_ems'; 
 
 $conn = new mysqli($host, $username, $password, $dbname);
 
