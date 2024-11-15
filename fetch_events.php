@@ -1,6 +1,6 @@
 <?php
 
-$connection = new mysqli("localhost", "root", "", "bcp_sms3_ems");
+$connection = new mysqli("localhost", "event_topher", "topher", "event_bcp_sms3_ems");
 
 if ($connection->connect_error) {
     die("Connection failed: " . $connection->connect_error);
