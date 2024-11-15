@@ -1,19 +1,11 @@
 <?php
 session_start();
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 if (isset($_SESSION['accountId'])) {
-    header("Location: eventdash.php");
+    header("eventdash.php");
     exit();
 }
 
 include 'connection.php';
-
-if (!$conn) {
-    die("Database connection failed");
-}
 
 $error = ''; 
 
@@ -24,27 +16,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (!preg_match('/^\d{6}$/', $accountId)) {
         $error = 'Account ID must be exactly 6 digits!';
     } else {
-        try {
-            $stmt = $conn->prepare("SELECT password FROM bcp_sms3_useracc WHERE accountId = ?");
-            $stmt->execute([$accountId]);
-            $user = $stmt->fetch();
 
-            if ($user) {
-                if (password_verify($password, $user['password'])) {
-                    $_SESSION['accountId'] = $accountId;
-                    header("Location: eventdash.php");
-                    exit();
-                } else {
-                    $error = 'Invalid password!';
-                }
+        $stmt = $conn->prepare("SELECT password FROM bcp_sms3_useracc WHERE accountId = ?");
+        $stmt->execute([$accountId]);
+        $user = $stmt->fetch();
+
+        if ($user) {
+            if (password_verify($password, $user['password'])) {
+
+                $_SESSION['accountId'] = $accountId;
+                header("Location: eventdash.php"); 
+                exit();
             } else {
-                $error = 'Invalid account ID or password!';
+                
+                $error = 'Invalid password!';
             }
-        } catch (PDOException $e) {
-            echo 'Database error: ' . $e->getMessage();
+        } else {
+       
+            $error = 'Invalid account ID or password!';
         }
     }
 }
+
 
 $conn = null; 
 ?>
@@ -89,3 +82,4 @@ $conn = null;
     </div>
 </body>
 </html>
+
