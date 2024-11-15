@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 $conn = null; 
-?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -76,4 +76,4 @@ $conn = null;
                 <a href="#" aria-label="Forgot password?">Forgot your password?</a>
             </div>
 
-            <
+            ?>
