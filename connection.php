@@ -1,20 +1,46 @@
 <?php
-$host = 'localhost';
-$db = 'event_bcp_sms3_ems'; 
-$user = 'event_topher';  
-$pass = 'event_topher';  
-$charset = 'utf8mb4';
+session_start();
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
-$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
-$options = [
-    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    PDO::ATTR_EMULATE_PREPARES   => false,  
-];
-
-try {
-    $conn = new PDO($dsn, $user, $pass, $options);
-} catch (\PDOException $e) {
-    throw new \PDOException($e->getMessage(), (int)$e->getCode());
+if (isset($_SESSION['accountId'])) {
+    header("Location: eventdash.php");
+    exit();
 }
+
+include 'connection.php';
+
+$error = ''; 
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $accountId = filter_input(INPUT_POST, 'accountId', FILTER_SANITIZE_NUMBER_INT);
+    $password = $_POST['password'];
+
+    if (!preg_match('/^\d{6}$/', $accountId)) {
+        $error = 'Account ID must be exactly 6 digits!';
+    } else {
+        try {
+            $stmt = $conn->prepare("SELECT password FROM bcp_sms3_useracc WHERE accountId = ?");
+            $stmt->execute([$accountId]);
+            $user = $stmt->fetch();
+
+            if ($user) {
+                if (password_verify($password, $user['password'])) {
+                    $_SESSION['accountId'] = $accountId;
+                    header("Location: eventdash.php");
+                    exit();
+                } else {
+                    $error = 'Invalid password!';
+                }
+            } else {
+                $error = 'Invalid account ID or password!';
+            }
+        } catch (PDOException $e) {
+            echo 'Error: ' . $e->getMessage();
+        }
+    }
+}
+
+$conn = null; 
 ?>
