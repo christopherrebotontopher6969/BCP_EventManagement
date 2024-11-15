@@ -11,7 +11,7 @@ include 'fetchname.php';
 $host = 'localhost';  
 $username = 'event_topher';  
 $password = 'topher';      
-$dbname = 'bcp_sms3_ems'; 
+$dbname = 'event_bcp_sms3_ems'; 
 
 $conn = new mysqli($host, $username, $password, $dbname);
 
