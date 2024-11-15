@@ -3,9 +3,9 @@
 
 
 $servername = "localhost"; 
-$username = "root"; 
-$password = ""; 
-$dbname = "bcp_sms3_ems"; 
+$username = "event_topher"; 
+$password = "topher"; 
+$dbname = "event_bcp_ms3_ems"; 
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
