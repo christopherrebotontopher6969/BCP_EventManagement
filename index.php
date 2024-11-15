@@ -1,13 +1,18 @@
 <?php
 session_start();
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// Check if user is already logged in
 if (isset($_SESSION['accountId'])) {
-    header("eventdash.php");
+    header("Location: eventdash.php");
     exit();
 }
 
-include 'connection.php';
+include 'connection.php'; // Make sure this connects correctly
 
-$error = ''; 
+$error = '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $accountId = filter_input(INPUT_POST, 'accountId', FILTER_SANITIZE_NUMBER_INT);
@@ -16,30 +21,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (!preg_match('/^\d{6}$/', $accountId)) {
         $error = 'Account ID must be exactly 6 digits!';
     } else {
+        try {
+            // Prepare the SQL query to fetch password from the database
+            $stmt = $conn->prepare("SELECT password FROM bcp_sms3_useracc WHERE accountId = ?");
+            $stmt->execute([$accountId]);
+            $user = $stmt->fetch();
 
-        $stmt = $conn->prepare("SELECT password FROM bcp_sms3_useracc WHERE accountId = ?");
-        $stmt->execute([$accountId]);
-        $user = $stmt->fetch();
-
-        if ($user) {
-            if (password_verify($password, $user['password'])) {
-
-                $_SESSION['accountId'] = $accountId;
-                header("Location: eventdash.php"); 
-                exit();
+            if ($user) {
+                if (password_verify($password, $user['password'])) {
+                    $_SESSION['accountId'] = $accountId;
+                    header("Location: eventdash.php");
+                    exit();
+                } else {
+                    $error = 'Invalid password!';
+                }
             } else {
-                
-                $error = 'Invalid password!';
+                $error = 'Invalid account ID or password!';
             }
-        } else {
-       
-            $error = 'Invalid account ID or password!';
+        } catch (PDOException $e) {
+            // Handle DB errors
+            $error = 'Database error: ' . $e->getMessage();
         }
     }
 }
 
-
-$conn = null; 
+// Close the connection
+$conn = null;
 ?>
 
 <!DOCTYPE html>
@@ -48,21 +55,21 @@ $conn = null;
     <meta charset="UTF-8">
     <link href="assets/img/bcp logo.png" rel="icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Clinic Management System.">
+    <meta name="description" content="Event Management System">
     <link rel="stylesheet" href="assets/css/index.css">
     <title>Login - EMS</title> 
 </head>
 <body>
     <div class="logo">
         <img src="assets/img/bcp logo.png" alt="Logo">
-        <p>Event Management System</p> 
+        <p>Event Management System</p>
     </div>
-    
+
     <div class="login-container">
         <h2>Log Into Your Account</h2>
         <?php if (!empty($error)): ?>
             <div class="error-message" style="color: red;">
-                <?= htmlspecialchars($error) ?> 
+                <?= htmlspecialchars($error) ?>
             </div>
         <?php endif; ?>
         <form id="loginForm" action="index.php" method="post">
@@ -82,4 +89,3 @@ $conn = null;
     </div>
 </body>
 </html>
-
