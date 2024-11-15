@@ -2,10 +2,10 @@
 <?php
 
 
-$servername = "localhost"; 
-$username = "root"; 
-$password = ""; 
-$dbname = "bcp_sms3_ems"; 
+$host = 'localhost';
+$db = 'event_bcp_sms3_ems'; 
+$user = 'event_topher';  
+$pass = 'topher';  
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
