@@ -1,8 +1,8 @@
 <?php
 //$servername = "localhost"; 
-//$username = "event_topher"; 
-//$password = "topher"; 
-//$dbname = "event_bcp_sms3_ems"; 
+//$username = "root"; 
+//$password = ""; 
+//$dbname = "bcp_sms3_ems"; 
 
 //$conn = new mysqli($servername, $username, $password, $dbname);
 

@@ -4,8 +4,8 @@
 
 $servername = "localhost"; 
 $username = "event_topher"; 
-$password = "topher"; 
-$dbname = "event_bcp_ms3_ems"; 
+$password = "event_topher"; 
+$dbname = "event_bcp_sms3_ems"; 
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -37,4 +37,3 @@ if ($result->num_rows > 0) {
 $stmt->close();
 $conn->close();
 ?>
-

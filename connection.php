@@ -2,7 +2,7 @@
 $host = 'localhost';
 $db = 'event_bcp_sms3_ems'; 
 $user = 'event_topher';  
-$pass = 'topher';  
+$pass = 'event_topher';  
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
